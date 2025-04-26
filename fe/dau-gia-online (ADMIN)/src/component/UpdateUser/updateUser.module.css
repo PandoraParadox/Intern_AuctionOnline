@@ -1,0 +1,243 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #6aaef1;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menuItem.active,
+.menuItem:hover {
+  background-color: #34495e;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.sidebarUser {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  height: 60px;
+  background-color: #2c3e50;
+  cursor: pointer;
+
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 10px;
+}
+
+.username {
+  font-size: 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: #fff;
+  margin: 20px;
+}
+
+.mainContent {
+  flex-grow: 1;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto;
+  background-color: #e5eff8;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: larger;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.userUpdate {
+  max-width: 1100px;
+  height: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.userDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.userColumn {
+  flex: 1;
+  padding: 10px;
+  margin-top: 70px;
+}
+
+.formGroup {
+  align-items: center;
+}
+
+.formGroup label {
+  width: 100px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-bottom: 2px solid #6aaef1;
+}
+
+.formGroup input {
+  flex: 1;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+  font-size: 16px;
+  color: #000;
+  background-color: #e5eff8;
+}
+
+.formGroup input::placeholder {
+  color: #ccc;
+}
+
+.userColumn input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 70px;
+  padding: 5px;
+  font-size: 16px;
+  color: #a19f9f;
+}
+
+.userColumn input:focus {
+  outline: none;
+  border-bottom: 2px solid #6aaef1;
+  color: #000;
+}
+
+.userActions {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.userActions button {
+  padding: 10px 20px;
+  margin: 100px;
+  width: 30%;
+  color: white;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: bold;
+  background-color: rgb(0, 200, 255);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.userActions button:hover {
+  background-color: #46a0c6;
+}
+
+
+.notificationAlert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.notification {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.notificationButton {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.btnConfirm, .btnCancel {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btnConfirm {
+  background-color: #28a745;
+  color: white;
+}
+
+.btnConfirm:hover {
+  background-color: #218838;
+}
+
+.btnCancel {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btnCancel:hover {
+  background-color: #c82333;
+}

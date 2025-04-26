@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+a {
+    display: inline;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.ui {
+    display: flex;
+    height: 100%;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #FCFAFA;
+
+}
+
+.mainBox {
+    background-color: #FCFAFA;
+    width: 80%;
+}
+
+.title {
+    font-size: 40px;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 12px;
+    padding-bottom: 4px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    max-width: 100%;
+    border-bottom: 2px solid #C9C3C3;
+    margin-left: 40px;
+}
+
+form {
+    width: 70%;
+}
+
+.profile {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+.profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid white;
+}
+
+.icon {
+    font-size: 30px;
+    margin-right: 30px;
+    display: inline;
+    color: black;
+}
+
+.inforBox {
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+    margin-left: 150px;
+    margin-top: 80px;
+    width: 60%;
+}
+
+.imageBox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    margin-top: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.field > input {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-bottom: 1px solid #C9C3C3;
+    border-radius: 3px;
+}
+
+.field > input:focus {
+    padding-left: 20px;
+    transition: padding-left 0.2s ease-in-out;
+}
+
+.imgArea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EBE9E9;
+    width: 300px;
+    height: 300px;
+}
+
+.contentBox {
+    display: flex;
+}
+
+.cateField {
+    font-size: 20px;
+}
+
+.cateSelect {
+    margin-left: 20px;
+    width: 75%;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #C9C3C3;
+}
+
+.uploadImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #676565;
+    width: 25%;
+    height: 20%;
+    border-radius: 10px;
+    color: white;
+    font-size: 70px;
+}
+
+.uploadImg:hover {
+    background-color: white;
+    color: #676565;
+}
+
+.refreBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #AECBF6;
+    width: 50%;
+    height: 10%;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.refreBtn:hover {
+    background-color: #234bce;
+    color: black;
+    transition: all 0.3s ease;
+    transform: scale(1);
+    border: 3px solid black;
+}
+
+.btn {
+    display: flex;
+    max-width: 50%;
+    height: 60px;
+    justify-content: space-between;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.cancelBtn,
+.uploadBtn {
+    display: flex;
+    height: 100%;
+    width: 30%;
+    background-color: #AECBF6;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+.cancelBtn:hover,
+.uploadBtn:hover {
+    background-color: #234bce;
+    color: black;
+    transition: all 0.3s ease;
+    transform: scale(1);
+    border: 3px solid black;
+}
+
+.menuItem.active,
+.menuItem:hover {
+    background-color: #34495e;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #6aaef1;
+    color: white;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+    cursor: pointer;
+    border-bottom: 1px solid #34495e;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menuItem.active,
+.menuItem:hover {
+    background-color: #34495e;
+}
+
+.icon {
+    margin-right: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+.sidebarUser {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 250px;
+    height: 60px;
+    background-color: #2c3e50;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.username {
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #fff;
+    margin: 20px;
+}
+
+.imgArea>form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: "+";
+    cursor: pointer;
+}
+
+.fileUpload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    font-size: 50px;
+    color: #007bff;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+    
+}
+
+.fileUpload:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.fileUpload input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    
+}

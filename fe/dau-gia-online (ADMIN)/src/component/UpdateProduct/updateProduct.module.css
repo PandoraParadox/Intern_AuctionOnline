@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+a {
+    display: inline;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.ui {
+    display: flex;
+    height: 100%;
+    background-color: #FCFAFA;
+
+}
+
+.mainBox {
+    background-color: #FCFAFA;
+    width: 80%;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.title {
+    font-size: 40px;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 12px;
+    padding-bottom: 4px;
+    letter-spacing: 2px;
+    max-width: 100%;
+    border-bottom: 2px solid #C9C3C3;
+    margin-left: 40px;
+    text-align: center;
+}
+
+.form__updateProduct {
+    width: 80%;
+    justify-items: center;
+    margin-left: 65px;
+    margin-top: 10px;
+}
+
+.profile {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+.profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid white;
+}
+
+
+
+
+.inforBox {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    margin-left: 150px;
+    margin-top: 80px;
+    width: 60%;
+}
+
+.imageBox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    margin-top: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.field>input {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-bottom: 1px solid #C9C3C3;
+    border-radius: 3px;
+    padding-left: 10px;
+}
+
+.field>input:focus {
+    padding-left: 20px;
+    transition: padding-left 0.2s ease-in-out;
+}
+
+.imgArea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EBE9E9;
+    width: 300px;
+    height: 300px;
+}
+
+.contentBox {
+    display: flex;
+}
+
+.cateField {
+    font-size: 20px;
+    width: 100%;
+}
+
+.cateSelect {
+    width: 400px;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #C9C3C3;
+    padding-left: 10px;
+}
+
+.uploadImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #676565;
+    width: 25%;
+    height: 20%;
+    border-radius: 10px;
+    color: white;
+    font-size: 70px;
+}
+
+.uploadImg:hover {
+    background-color: white;
+    color: #676565;
+}
+
+.refreBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #AECBF6;
+    width: 50%;
+    height: 10%;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.refreBtn:hover {
+    background-color: #234bce;
+    color: black;
+    transition: all 0.3s ease;
+    transform: scale(1);
+    border: 3px solid black;
+}
+
+.btn {
+    display: flex;
+    max-width: 50%;
+    height: 60px;
+    justify-content: space-between;
+    margin: auto;
+    margin-top: 50px;
+    margin-left: 315px;
+}
+
+.cancelBtn,
+.uploadBtn {
+    display: flex;
+    height: 100%;
+    width: 30%;
+    background-color: #AECBF6;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.cancelBtn:hover,
+.uploadBtn:hover {
+    background-color: #234bce;
+    color: black;
+    transition: all 0.3s ease;
+    transform: scale(1);
+    border: 3px solid black;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #6aaef1;
+    color: white;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menuItem.active,
+.menuItem:hover {
+    background-color: #34495e;
+}
+
+.icon {
+    margin-right: 10px;
+
+}
+
+.sidebarUser {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 250px;
+    height: 60px;
+    background-color: #2c3e50;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.username {
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #fff;
+    margin: 20px;
+
+}
+
+.imgArea>form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: "+";
+}
+
+.fileUpload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    font-size: 50px;
+    color: #007bff;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+.fileUpload:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.fileUpload input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+.notificationAlert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+
+.notification {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.notificationButton {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.btnConfirm,
+.btnCancel {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btnConfirm {
+    background-color: #28a745;
+    color: white;
+}
+
+.btnConfirm:hover {
+    background-color: #218838;
+}
+
+.btnCancel {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btnCancel:hover {
+    background-color: #c82333;
+}
+
+.field input[type="datetime-local"] {
+    color: grey;
+}
+
+.tarea {
+    width: 100%;
+    padding-left: 20px;
+    border: none;
+    border-radius: 5px;
+    border-bottom: 1px solid #C9C3C3;
+    height: 70px;
+}
