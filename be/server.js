@@ -47,6 +47,7 @@ const protectedRoutes = require('./routes/protected.routes');
 
 app.use('/api/v1', productRoutes);
 app.use('/api/v1/protected', verifyToken, protectedRoutes);
+app.use('/won-items', require('./routes/wonitems.routes'));
 
 const clients = new Map();
 
@@ -69,18 +70,96 @@ const getAuctionStatus = (auctionTime) => {
     return 'Ended';
 };
 
+async function checkAuctionEnd(auctionId) {
+    console.log(`Checking auction end for product ${auctionId}...`);
+    try {
+        const [products] = await pool.query(
+            'SELECT id, name, highest_bidder_user, highest_bid, auctionTime FROM product WHERE id = ?',
+            [auctionId]
+        );
+        if (products.length === 0) {
+            console.log(`No product found for product ${auctionId}`);
+            return;
+        }
+
+        const product = products[0];
+        let status;
+        try {
+            status = getAuctionStatus(product.auctionTime);
+        } catch (error) {
+            console.error(`Error checking auction status for product ${auctionId}:`, error.message);
+            return;
+        }
+
+        if (status !== 'Ended') {
+            console.log(`Auction ${auctionId} is not ended yet (status: ${status})`);
+            return;
+        }
+
+        if (!product.highest_bidder_user) {
+            console.log(`No winner for product ${auctionId}`);
+            return;
+        }
+
+
+        const [existingWonItems] = await pool.query(
+            'SELECT id FROM won_items WHERE product_id = ? AND user_id = ?',
+            [product.id, product.highest_bidder_user]
+        );
+        if (existingWonItems.length > 0) {
+            console.log(`Won item already exists for product ${auctionId} and user ${product.highest_bidder_user}`);
+            return;
+        }
+
+
+        const finalPrice = product.highest_bid || 0;
+        await pool.query(
+            `INSERT INTO won_items (user_id, product_id, final_price, status, won_at)
+             VALUES (?, ?, ?, 'Pending', NOW())`,
+            [product.highest_bidder_user, product.id, finalPrice]
+        );
+        console.log(`Added to won_items for product ${product.id} with final_price ${finalPrice}`);
+
+        clients.forEach((clientAuctionId, client) => {
+            if (client.readyState === WebSocket.OPEN && clientAuctionId === auctionId) {
+                client.send(
+                    JSON.stringify({
+                        type: 'auction_ended',
+                        productId: product.id,
+                        productName: product.name,
+                        winnerId: product.highest_bidder_user || null,
+                        finalPrice: finalPrice,
+                    })
+                );
+            }
+        });
+    } catch (error) {
+        console.error(`Error in checkAuctionEnd for product ${auctionId}:`, error);
+    }
+}
+
 wss.on('connection', (ws) => {
     console.log('New WebSocket connection established');
-    let timeout;
 
     ws.on('message', async (message) => {
         console.log('WebSocket message received:', message.toString());
-        const data = JSON.parse(message);
+        let data;
+        try {
+            data = JSON.parse(message);
+        } catch (error) {
+            ws.send(JSON.stringify({ type: 'error', message: 'Invalid message format' }));
+            return;
+        }
+
         const { type, auctionId, userId, bidAmount, token } = data;
 
         try {
             if (type === 'join') {
-                await verifyTokenWS(token);
+                const decodedToken = await verifyTokenWS(token);
+                if (decodedToken.uid !== userId) {
+                    ws.send(JSON.stringify({ type: 'error', message: 'Invalid token' }));
+                    return;
+                }
                 ws.auctionId = auctionId;
                 clients.set(ws, auctionId);
 
@@ -88,9 +167,10 @@ wss.on('connection', (ws) => {
                     'SELECT * FROM product WHERE id = ?',
                     [auctionId]
                 );
-                const [bids] = await pool.execute('SELECT * FROM bid_history WHERE product_id = ? ORDER BY bid_time DESC', [
-                    auctionId,
-                ]);
+                const [bids] = await pool.execute(
+                    'SELECT * FROM bid_history WHERE product_id = ? ORDER BY bid_time DESC',
+                    [auctionId]
+                );
 
                 if (products.length) {
                     const product = products[0];
@@ -123,40 +203,20 @@ wss.on('connection', (ws) => {
                             bidHistory: bids,
                         })
                     );
-
-
-                    const timeToEnd = endTime.getTime() - Date.now();
-                    console.log('timeToEnd for auction', auctionId, ':', timeToEnd, 'ms');
-                    if (timeToEnd > 0 && status !== 'Ended') {
-                        timeout = setTimeout(() => {
-                            clients.forEach((clientAuctionId, client) => {
-                                if (client.readyState === WebSocket.OPEN && clientAuctionId === auctionId) {
-                                    console.log('Sending auction_ended for auction', auctionId);
-                                    client.send(
-                                        JSON.stringify({
-                                            type: 'auction_ended',
-                                            winnerId: product.highest_bidder_user || null,
-                                        })
-                                    );
-                                }
-                            });
-                        }, timeToEnd);
-                    } else if (timeToEnd <= 0 && status === 'Ended') {
-                        console.log('Auction', auctionId, 'already ended, sending auction_ended');
-                        ws.send(
-                            JSON.stringify({
-                                type: 'auction_ended',
-                                winnerId: product.highest_bidder_user || null,
-                            })
-                        );
+                    if (status === 'Ended') {
+                        await checkAuctionEnd(auctionId);
                     }
                 } else {
                     ws.send(JSON.stringify({ type: 'error', message: 'Sản phẩm không tồn tại' }));
                 }
             } else if (type === 'bid') {
                 const decodedToken = await verifyTokenWS(token);
-                const [products] = await pool.execute('SELECT * FROM product WHERE id = ?', [auctionId]);
+                if (decodedToken.uid !== userId) {
+                    ws.send(JSON.stringify({ type: 'error', message: 'Invalid token' }));
+                    return;
+                }
 
+                const [products] = await pool.execute('SELECT * FROM product WHERE id = ?', [auctionId]);
                 if (!products.length) {
                     ws.send(JSON.stringify({ type: 'error', message: 'Sản phẩm không tồn tại' }));
                     return;
@@ -180,26 +240,21 @@ wss.on('connection', (ws) => {
                     return;
                 }
 
+                await pool.execute(
+                    'UPDATE product SET highest_bid = ?, highest_bidder_user = ? WHERE id = ?',
+                    [bidAmount, userId, auctionId]
+                );
 
-                await pool.execute('UPDATE product SET highest_bid = ?, highest_bidder_user = ? WHERE id = ?', [
-                    bidAmount,
-                    userId,
-                    auctionId,
-                ]);
-
-
-                await pool.execute('INSERT INTO bid_history (product_id, user_id, bid_amount, bid_time) VALUES (?, ?, ?, ?)', [
-                    auctionId,
-                    userId,
-                    bidAmount,
-                    new Date().toISOString(),
-                ]);
+                await pool.execute(
+                    'INSERT INTO bid_history (product_id, user_id, bid_amount, bid_time) VALUES (?, ?, ?, ?)',
+                    [auctionId, userId, bidAmount, new Date().toISOString()]
+                );
 
                 const [updatedProduct] = await pool.execute('SELECT * FROM product WHERE id = ?', [auctionId]);
-                const [updatedBids] = await pool.execute('SELECT * FROM bid_history WHERE product_id = ? ORDER BY bid_time DESC', [
-                    auctionId,
-                ]);
-
+                const [updatedBids] = await pool.execute(
+                    'SELECT * FROM bid_history WHERE product_id = ? ORDER BY bid_time DESC',
+                    [auctionId]
+                );
 
                 clients.forEach((clientAuctionId, client) => {
                     if (client.readyState === WebSocket.OPEN && clientAuctionId === auctionId) {
@@ -213,6 +268,8 @@ wss.on('connection', (ws) => {
                         );
                     }
                 });
+            } else if (type === 'check_auction') {
+                await checkAuctionEnd(auctionId);
             }
         } catch (error) {
             console.error('WebSocket error:', error.message);
@@ -223,7 +280,6 @@ wss.on('connection', (ws) => {
     ws.on('close', () => {
         console.log('WebSocket connection closed');
         clients.delete(ws);
-        clearTimeout(timeout);
     });
 
     ws.on('error', (error) => {
