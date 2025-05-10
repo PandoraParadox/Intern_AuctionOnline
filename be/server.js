@@ -8,46 +8,21 @@ const pool = require('./config/db');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-
+const { verifyTokenWithParam } = require('./middleware/auth')
+const { verifyTokenWS } = require('./middleware/auth')
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
 
-const admin = require('./config/firebase');
-const verifyToken = async (req, res, next) => {
-    const idToken = req.headers.authorization?.split('Bearer ')[1];
-    if (!idToken) {
-        return res.status(401).json({ error: 'No token provided' });
-    }
-    try {
-        const decodedToken = await admin.auth().verifyIdToken(idToken);
-        req.user = decodedToken;
-        next();
-    } catch (error) {
-        console.error('Token verification failed:', error);
-        return res.status(403).json({ error: 'Invalid token' });
-    }
-};
-
-const verifyTokenWS = async (token) => {
-    if (!token) {
-        throw new Error('No token provided');
-    }
-    try {
-        const decodedToken = await admin.auth().verifyIdToken(token);
-        return decodedToken;
-    } catch (error) {
-        console.error('Token verification failed:', error);
-        throw new Error('Invalid token');
-    }
-};
-
 const productRoutes = require('./routes/product.routes');
 const protectedRoutes = require('./routes/protected.routes');
+const wonitemRoutes = require('./routes/wonitems.routes');
+const walletRoutes = require('./routes/wallet.routes')
 
 app.use('/api/v1', productRoutes);
-app.use('/api/v1/protected', verifyToken, protectedRoutes);
-app.use('/won-items', require('./routes/wonitems.routes'));
+app.use('/api/v1/protected', verifyTokenWithParam, protectedRoutes);
+app.use('/won-items', wonitemRoutes);
+app.use('/api/v1/wallet', walletRoutes);
 
 const clients = new Map();
 
@@ -71,7 +46,6 @@ const getAuctionStatus = (auctionTime) => {
 };
 
 async function checkAuctionEnd(auctionId) {
-    console.log(`Checking auction end for product ${auctionId}...`);
     try {
         const [products] = await pool.query(
             'SELECT id, name, highest_bidder_user, highest_bid, auctionTime FROM product WHERE id = ?',
