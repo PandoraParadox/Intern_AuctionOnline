@@ -12,5 +12,7 @@ router.post('/confirm/:productID', verifyToken, wonitemController.confirmPayment
 
 router.get('/payments/:id', verifyToken, wonitemController.detailWonitem);
 
+router.post('/received/:productID', verifyToken, wonitemController.confirmReceived);
+
 
 module.exports = router;

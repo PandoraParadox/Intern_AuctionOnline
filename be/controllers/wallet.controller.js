@@ -32,14 +32,15 @@ exports.createTransaction = async (req, res) => {
         const [[wallet]] = await db.query("SELECT * FROM wallets WHERE user_id = ?", [user_id]);
         if (!wallet) return res.status(404).json({ message: "Wallet not found" });
         const newBalance =
-            type === "Add Funds"
-                ? wallet.balance + amount
-                : type === "Withdrawal"
-                    ? wallet.balance - amount
-                    : wallet.balance;
+            type === "Add Funds" ? parseFloat(wallet.balance) + parseFloat(amount) : type === "Withdrawal" || type === "Confirm" ? wallet.balance - amount : wallet.balance;
 
-        const newPending =
-            type === "Bids" ? wallet.pending_bids + amount : wallet.pending_bids;
+        const newPending = type === "Confirm" ? parseFloat(wallet.pending_bids) - parseFloat(amount) : wallet.pending_bids;
+
+        if (type !== "Confirm" && (newBalance < 0 || newBalance < wallet.pending_bids)) {
+            return res.status(500).json({ message: "Invalid balance" });
+        } else if (type === "Confirm" && (newBalance < 0 || newBalance < newPending)) {
+            return res.status(500).json({ message: "Invalid balance" });
+        }
 
         await db.query("INSERT INTO wallet_transactions (wallet_id, type, amount, description, created_at) VALUES (?, ?, ?, ?, NOW())",
             [wallet.id, type, amount, description]);
