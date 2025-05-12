@@ -10,7 +10,7 @@ exports.getWonItem = async (req, res) => {
             `SELECT wi.id AS won_item_id, p.id AS product_id, p.name, wi.final_price, wi.status, wi.won_at, p.images
              FROM won_items wi
              JOIN product p ON wi.product_id = p.id
-             WHERE wi.user_id = ?`,
+             WHERE wi.user_id = ? and status != 'Received'`,
             [req.params.userId]
         );
 
@@ -89,6 +89,25 @@ exports.detailWonitem = async (req, res) => {
     } catch (error) {
         console.error("Lỗi khi truy vấn chi tiết sản phẩm đã thắng:", error);
         res.status(500).json({ error: 'Internal server error' });
+    } finally {
+        connection.release();
+    }
+};
+
+exports.confirmReceived = async (req, res) => {
+    const itemId = req.params.productID;
+    const userId = req.user.uid;
+    const connection = await pool.getConnection();
+    try {
+        await connection.query(
+            `UPDATE won_items SET status = ? WHERE id = ? AND user_id = ?`,
+            ['Received', itemId, userId]
+        );
+        await connection.commit();
+        res.status(200).json({ message: 'Received done' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Received fail' })
     } finally {
         connection.release();
     }

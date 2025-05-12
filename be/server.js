@@ -29,17 +29,10 @@ const clients = new Map();
 const getAuctionStatus = (auctionTime) => {
     const start = new Date(auctionTime);
     if (isNaN(start.getTime())) {
-        console.error('Invalid auctionTime:', auctionTime);
-        throw new Error('Invalid auctionTime format');
+        throw new Error('Invalid auctionTime');
     }
     const end = new Date(start.getTime() + 60 * 60 * 1000);
     const now = new Date();
-    console.log('getAuctionStatus:', {
-        auctionTime: start.toISOString(),
-        endTime: end.toISOString(),
-        now: now.toISOString(),
-        status: now < start ? 'Pending' : now <= end ? 'Active' : 'Ended'
-    });
     if (now < start) return 'Pending';
     if (now >= start && now <= end) return 'Active';
     return 'Ended';
@@ -55,7 +48,6 @@ async function checkAuctionEnd(auctionId) {
             console.log(`No product found for product ${auctionId}`);
             return;
         }
-
         const product = products[0];
         let status;
         try {
@@ -66,7 +58,7 @@ async function checkAuctionEnd(auctionId) {
         }
 
         if (status !== 'Ended') {
-            console.log(`Auction ${auctionId} is not ended yet (status: ${status})`);
+            console.log(`Auction is going on`);
             return;
         }
 
@@ -88,11 +80,10 @@ async function checkAuctionEnd(auctionId) {
 
         const finalPrice = product.highest_bid || 0;
         await pool.query(
-            `INSERT INTO won_items (user_id, product_id, final_price, status, won_at)
-             VALUES (?, ?, ?, 'Pending', NOW())`,
+            `INSERT INTO won_items (user_id, product_id, final_price, status, won_at, payment_due)
+             VALUES (?, ?, ?, 'Pending', NOW(), DATE_ADD(NOW(), INTERVAL 3 DAY))`,
             [product.highest_bidder_user, product.id, finalPrice]
         );
-        console.log(`Added to won_items for product ${product.id} with final_price ${finalPrice}`);
 
         clients.forEach((clientAuctionId, client) => {
             if (client.readyState === WebSocket.OPEN && clientAuctionId === auctionId) {
@@ -112,9 +103,28 @@ async function checkAuctionEnd(auctionId) {
     }
 }
 
-wss.on('connection', (ws) => {
-    console.log('New WebSocket connection established');
+async function recalculatePending(userId) {
+    const [rows] = await pool.query(`
+        SELECT p.id AS product_id,
+               (SELECT bh.bid_amount
+                FROM bid_history bh
+                WHERE bh.product_id = p.id AND bh.user_id = ?
+                ORDER BY bh.bid_time DESC
+                LIMIT 1) AS last_bid
+        FROM product p
+        WHERE p.highest_bidder_user = ?
+    `, [userId, userId]);
 
+    const totalPending = rows.reduce((sum, row) => {
+        return sum + (row.last_bid || 0);
+    }, 0);
+
+    await pool.query(`
+        UPDATE wallets SET pending_bids = ? WHERE user_id = ?
+    `, [totalPending, userId]);
+}
+
+wss.on('connection', (ws) => {
     ws.on('message', async (message) => {
         console.log('WebSocket message received:', message.toString());
         let data;
@@ -213,6 +223,7 @@ wss.on('connection', (ws) => {
                     ws.send(JSON.stringify({ type: 'error', message: 'Giá đặt phải cao hơn giá hiện tại' }));
                     return;
                 }
+                const oldUserId = product.highest_bidder_user;
 
                 await pool.execute(
                     'UPDATE product SET highest_bid = ?, highest_bidder_user = ? WHERE id = ?',
@@ -229,6 +240,13 @@ wss.on('connection', (ws) => {
                     'SELECT * FROM bid_history WHERE product_id = ? ORDER BY bid_time DESC',
                     [auctionId]
                 );
+
+                await recalculatePending(userId);
+
+                if (oldUserId && oldUserId !== userId) {
+                    await recalculatePending(oldUserId);
+                }
+
 
                 clients.forEach((clientAuctionId, client) => {
                     if (client.readyState === WebSocket.OPEN && clientAuctionId === auctionId) {
