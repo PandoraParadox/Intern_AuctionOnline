@@ -18,11 +18,13 @@ const productRoutes = require('./routes/product.routes');
 const protectedRoutes = require('./routes/protected.routes');
 const wonitemRoutes = require('./routes/wonitems.routes');
 const walletRoutes = require('./routes/wallet.routes')
+const notificationRoutes = require('./routes/notification.routes')
 
 app.use('/api/v1', productRoutes);
 app.use('/api/v1/protected', verifyTokenWithParam, protectedRoutes);
 app.use('/won-items', wonitemRoutes);
 app.use('/api/v1/wallet', walletRoutes);
+app.use('/api/v1/notification', notificationRoutes);
 
 const clients = new Map();
 
@@ -80,10 +82,16 @@ async function checkAuctionEnd(auctionId) {
 
         const finalPrice = product.highest_bid || 0;
         await pool.query(
-            `INSERT INTO won_items (user_id, product_id, final_price, status, won_at, payment_due)
-             VALUES (?, ?, ?, 'Pending', NOW(), DATE_ADD(NOW(), INTERVAL 3 DAY))`,
+            `INSERT INTO won_items (user_id, product_id, final_price, status, won_at,created_at, payment_due)
+             VALUES (?, ?, ?, 'Pending', NOW(),DATE_ADD(NOW(), INTERVAL 3 DAY) , DATE_ADD(NOW(), INTERVAL 5 DAY))`,
             [product.highest_bidder_user, product.id, finalPrice]
         );
+
+        await recalculatePending(product.highest_bidder_user);
+        await pool.query(`
+            INSERT INTO notifications(user_id, message, type, is_read)
+            VALUES (?, ?, 'auction', 0)
+        `, [product.highest_bidder_user, `You won product "${product.name}" at price ${finalPrice} VND`, 0]);
 
         clients.forEach((clientAuctionId, client) => {
             if (client.readyState === WebSocket.OPEN && clientAuctionId === auctionId) {
@@ -105,19 +113,12 @@ async function checkAuctionEnd(auctionId) {
 
 async function recalculatePending(userId) {
     const [rows] = await pool.query(`
-        SELECT p.id AS product_id,
-               (SELECT bh.bid_amount
-                FROM bid_history bh
-                WHERE bh.product_id = p.id AND bh.user_id = ?
-                ORDER BY bh.bid_time DESC
-                LIMIT 1) AS last_bid
-        FROM product p
-        WHERE p.highest_bidder_user = ?
-    `, [userId, userId]);
+        SELECT SUM(final_price) AS total_pending
+        FROM won_items 
+        WHERE user_id = ? AND status = 'Pending'
+    `, [userId]);
 
-    const totalPending = rows.reduce((sum, row) => {
-        return sum + (row.last_bid || 0);
-    }, 0);
+    const totalPending = rows[0].total_pending || 0;
 
     await pool.query(`
         UPDATE wallets SET pending_bids = ? WHERE user_id = ?
@@ -206,6 +207,12 @@ wss.on('connection', (ws) => {
                     return;
                 }
 
+                const [[wallet]] = await pool.execute("SELECT * FROM wallets WHERE user_id = ?", [userId]);
+                if ((wallet.balance - wallet.pending_bids) < bidAmount) {
+                    ws.send(JSON.stringify({ type: 'error', message: 'Số dư không hợp lệ.' }));
+                    return;
+                }
+
                 const product = products[0];
                 let status;
                 try {
@@ -223,6 +230,7 @@ wss.on('connection', (ws) => {
                     ws.send(JSON.stringify({ type: 'error', message: 'Giá đặt phải cao hơn giá hiện tại' }));
                     return;
                 }
+
                 const oldUserId = product.highest_bidder_user;
 
                 await pool.execute(
@@ -245,6 +253,7 @@ wss.on('connection', (ws) => {
 
                 if (oldUserId && oldUserId !== userId) {
                     await recalculatePending(oldUserId);
+                    await pool.query(`INSERT INTO notifications(user_id, message, type, is_read) VALUES (?,?,?,0)`, [oldUserId, `Your price for product ${product.name} has been exceeded`, "bid"]);
                 }
 
 
