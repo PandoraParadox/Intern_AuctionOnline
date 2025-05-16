@@ -43,8 +43,16 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
     try {
-        const [results] = await db.query("SELECT * FROM product ORDER BY id DESC");
-        console.log("Fetched products:", results);
+        const [results] = await db.query(`
+            SELECT p.* 
+            FROM product p
+            WHERE p.id NOT IN (
+                SELECT product_id 
+                FROM won_items
+                WHERE product_id IS NOT NULL
+            )
+            ORDER BY p.id DESC
+        `);
         res.status(200).json({ data: results });
     } catch (err) {
         console.error("Error fetching products:", err);
