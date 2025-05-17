@@ -11,6 +11,7 @@ exports.createWallet = async (req, res) => {
         await db.query("INSERT INTO wallets (user_id) VALUES (?)", [user_id]);
         res.json({ message: "Wallet created" });
     } catch (error) {
+        await db.rollback();
         res.status(500).json({ error: error.message });
     }
 };
@@ -22,6 +23,7 @@ exports.getWalletByUserId = async (req, res) => {
         if (rows.length === 0) return res.status(404).json({ message: "Wallet not found" });
         res.json(rows[0]);
     } catch (error) {
+        await db.rollback();
         res.status(500).json({ error: error.message });
     }
 };
@@ -50,6 +52,7 @@ exports.createTransaction = async (req, res) => {
 
         res.json({ message: "Transaction completed" });
     } catch (error) {
+        await db.rollback();
         res.status(500).json({ error: error.message });
     }
 };
@@ -66,6 +69,7 @@ exports.getTransactionsByUserId = async (req, res) => {
         );
         res.json(transactions);
     } catch (error) {
+        await db.rollback();
         res.status(500).json({ error: error.message });
     }
 };
