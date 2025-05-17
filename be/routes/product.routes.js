@@ -22,6 +22,7 @@ router.get("/search", productController.searchProducts);
 router.delete("/products/:id", productController.deleteProduct);
 router.put("/products/:id", productController.updateProduct);
 router.get('/products/:id', productController.getProductById);
+router.get('/bidder/:id', productController.getBidder);
 
 
 module.exports = router;

@@ -58,18 +58,14 @@ async function checkAuctionEnd(auctionId) {
             console.error(`Error checking auction status for product ${auctionId}:`, error.message);
             return;
         }
-
         if (status !== 'Ended') {
             console.log(`Auction is going on`);
             return;
         }
-
         if (!product.highest_bidder_user) {
             console.log(`No winner for product ${auctionId}`);
             return;
         }
-
-
         const [existingWonItems] = await pool.query(
             'SELECT id FROM won_items WHERE product_id = ? AND user_id = ?',
             [product.id, product.highest_bidder_user]
@@ -192,7 +188,7 @@ wss.on('connection', (ws) => {
                         await checkAuctionEnd(auctionId);
                     }
                 } else {
-                    ws.send(JSON.stringify({ type: 'error', message: 'Sản phẩm không tồn tại' }));
+                    ws.send(JSON.stringify({ type: 'error', message: 'Product does not exist' }));
                 }
             } else if (type === 'bid') {
                 const decodedToken = await verifyTokenWS(token);
@@ -203,13 +199,13 @@ wss.on('connection', (ws) => {
 
                 const [products] = await pool.execute('SELECT * FROM product WHERE id = ?', [auctionId]);
                 if (!products.length) {
-                    ws.send(JSON.stringify({ type: 'error', message: 'Sản phẩm không tồn tại' }));
+                    ws.send(JSON.stringify({ type: 'error', message: 'Product does not exist' }));
                     return;
                 }
 
                 const [[wallet]] = await pool.execute("SELECT * FROM wallets WHERE user_id = ?", [userId]);
                 if ((wallet.balance - wallet.pending_bids) < bidAmount) {
-                    ws.send(JSON.stringify({ type: 'error', message: 'Số dư không hợp lệ.' }));
+                    ws.send(JSON.stringify({ type: 'error', message: 'Invalid balance.' }));
                     return;
                 }
 
@@ -222,12 +218,12 @@ wss.on('connection', (ws) => {
                     return;
                 }
                 if (status !== 'Active') {
-                    ws.send(JSON.stringify({ type: 'error', message: 'Đấu giá không hoạt động' }));
+                    ws.send(JSON.stringify({ type: 'error', message: 'Auction not active' }));
                     return;
                 }
 
                 if (bidAmount <= (product.highest_bid || product.startingPrice)) {
-                    ws.send(JSON.stringify({ type: 'error', message: 'Giá đặt phải cao hơn giá hiện tại' }));
+                    ws.send(JSON.stringify({ type: 'error', message: 'The bid price must be higher than the current price.' }));
                     return;
                 }
 

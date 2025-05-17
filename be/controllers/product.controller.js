@@ -36,6 +36,7 @@ exports.createProduct = async (req, res) => {
         });
 
     } catch (error) {
+        await db.rollback();
         console.error("Server error:", error);
         res.status(500).json({ message: "Server error" });
     }
@@ -55,6 +56,7 @@ exports.getAllProducts = async (req, res) => {
         `);
         res.status(200).json({ data: results });
     } catch (err) {
+        await db.rollback();
         console.error("Error fetching products:", err);
         res.status(500).json({ message: "Database error" });
     }
@@ -73,6 +75,7 @@ exports.searchProducts = async (req, res) => {
         const [results] = await db.query(sql, [searchValue, searchValue]);
         res.status(200).json({ data: results });
     } catch (err) {
+        await db.rollback();
         console.error("Error searching products:", err);
         res.status(500).json({ message: "Error searching products" });
     }
@@ -89,6 +92,7 @@ exports.deleteProduct = async (req, res) => {
 
         res.status(200).json({ message: "Product deleted successfully" });
     } catch (err) {
+        await db.rollback();
         console.error("Error deleting product:", err);
         res.status(500).json({ message: "Error deleting product" });
     }
@@ -153,6 +157,7 @@ exports.updateProduct = async (req, res) => {
 
         res.status(200).json({ message: "Product updated successfully" });
     } catch (err) {
+        await db.rollback();
         console.error("Error updating product:", err);
         res.status(500).json({ message: "Error updating product" });
     }
@@ -162,15 +167,25 @@ exports.getProductById = async (req, res) => {
     const query = 'SELECT * FROM product WHERE id = ?';
     try {
         const [results] = await db.query(query, [id]);
-        console.log(`Kết quả truy vấn:`, results);
         if (results.length === 0) {
-            console.log(`Không tìm thấy sản phẩm với id: ${id}`);
-            return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
+            return res.status(404).json({ message: 'Product does not exist' });
         }
-        console.log(`Trả về sản phẩm:`, results[0]);
+        console.log(`Return products:`, results[0]);
         res.status(200).json({ data: results[0] });
     } catch (err) {
-        console.error(`Lỗi khi lấy sản phẩm với id ${id}:`, err.message);
-        res.status(500).json({ error: `Lỗi server: ${err.message}` });
+        await db.rollback();
+        console.error(`Error getting product with id ${id}:`, err.message);
+        res.status(500).json({ error: `Server error: ${err.message}` });
+    }
+};
+
+exports.getBidder = async (req , res) => {
+    const id = req.params.id;
+    try {
+        const [rows] = await db.query(`SELECT DISTINCT COUNT(user_id) as Bidder FROM bid_history where product_id = ?`, [id]);
+        const totalBidder = rows[0].Bidder || 0;
+        res.json(totalBidder);
+    } catch (err) {
+        console.log(err);
     }
 };

@@ -12,5 +12,7 @@ router.get('/payments/:id', verifyToken, wonitemController.detailWonitem);
 
 router.post('/received/:productID', verifyToken, wonitemController.confirmReceived);
 
+router.get('/pendingItem/:userId', verifyTokenWithParam, wonitemController.getPendingItem);
+
 
 module.exports = router;

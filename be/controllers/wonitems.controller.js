@@ -34,7 +34,7 @@ exports.getWonItem = async (req, res) => {
              FROM won_items wi
              JOIN product p ON wi.product_id = p.id
              WHERE wi.user_id = ? and wi.status NOT IN ('Received', 'Cancel')`,
-            [req.params.userId]
+            [userId]
         );
 
         const wonItems = rows.map((row) => {
@@ -54,8 +54,8 @@ exports.getWonItem = async (req, res) => {
 
         res.json(wonItems);
     } catch (error) {
-        console.error('Lỗi khi lấy danh sách mục đã thắng:', error);
-        res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
+        console.error('Error while getting list of won items:', error);
+        res.status(500).json({ error: 'System error' });
     }
 };
 
@@ -72,8 +72,6 @@ exports.confirmPayment = async (req, res) => {
             `UPDATE won_items SET status = ? WHERE product_id = ? AND user_id = ?`,
             ['Delivered', productId, userId]
         );
-
-
         await connection.query(
             `INSERT INTO payments (user_id, won_item_id,  paid_at, shipping_method, shipping_address, phoneNumber, deliveredTime) 
              VALUES (?, ?, NOW(), ?, ?, ?, DATE_ADD(NOW(), INTERVAL 4 DAY))`,
@@ -83,11 +81,10 @@ exports.confirmPayment = async (req, res) => {
         await pool.query(`INSERT INTO notifications(user_id, message, type, is_read) VALUES (?,?,?,0)`, [userId, "Payment confirmation successful", "confirm"]);
 
         await connection.commit();
-        res.status(200).json({ message: 'Xác nhận thanh toán thành công' });
+        res.status(200).json({ message: 'Payment confirmation successful' });
     } catch (err) {
         await connection.rollback();
-        console.error('Lỗi xác nhận thanh toán:', err);
-        res.status(500).json({ error: 'Lỗi xác nhận thanh toán' });
+        res.status(500).json({ error: 'Payment confirmation error' });
     } finally {
         connection.release();
     }
@@ -114,7 +111,8 @@ exports.detailWonitem = async (req, res) => {
 
         res.json(rows[0]);
     } catch (error) {
-        console.error("Lỗi khi truy vấn chi tiết sản phẩm đã thắng:", error);
+        await connection.rollback();
+        console.error("Error querying product details won:", error);
         res.status(500).json({ error: 'Internal server error' });
     } finally {
         connection.release();
@@ -133,9 +131,24 @@ exports.confirmReceived = async (req, res) => {
         await connection.commit();
         res.status(200).json({ message: 'Received done' });
     } catch (err) {
+        await connection.rollback();
         console.log(err);
         res.status(500).json({ error: 'Received fail' })
     } finally {
         connection.release();
+    }
+};
+
+exports.getPendingItem = async (req, res) => {
+    const userId = req.params.userId;
+    try {
+        const [rows] = await pool.query(`SELECT wi.id AS won_item_id, p.id AS product_id, p.name, wi.final_price, wi.status, wi.won_at ,wi.payment_due, p.images, wi.created_at
+             FROM won_items wi
+             JOIN product p ON wi.product_id = p.id
+             WHERE wi.user_id = ? and wi.status = 'Pending'`, [userId]);
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error('Error while getting list of pending items:', err);
+        res.status(500).json({ error: 'System error' });
     }
 };
