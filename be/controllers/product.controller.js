@@ -179,10 +179,10 @@ exports.getProductById = async (req, res) => {
     }
 };
 
-exports.getBidder = async (req , res) => {
+exports.getBidder = async (req, res) => {
     const id = req.params.id;
     try {
-        const [rows] = await db.query(`SELECT DISTINCT COUNT(user_id) as Bidder FROM bid_history where product_id = ?`, [id]);
+        const [rows] = await db.query(`SELECT COUNT(DISTINCT user_id) as Bidder FROM bid_history where product_id = ?`, [id]);
         const totalBidder = rows[0].Bidder || 0;
         res.json(totalBidder);
     } catch (err) {

@@ -89,6 +89,11 @@ async function checkAuctionEnd(auctionId) {
             VALUES (?, ?, 'auction', 0)
         `, [product.highest_bidder_user, `You won product "${product.name}" at price ${finalPrice} VND`, 0]);
 
+        await pool.execute(
+            'DELETE FROM reserved_bids WHERE user_id = ? AND product_id = ?',
+            [product.highest_bidder_user, auctionId]
+        );
+
         clients.forEach((clientAuctionId, client) => {
             if (client.readyState === WebSocket.OPEN && clientAuctionId === auctionId) {
                 client.send(
@@ -204,10 +209,15 @@ wss.on('connection', (ws) => {
                 }
 
                 const [[wallet]] = await pool.execute("SELECT * FROM wallets WHERE user_id = ?", [userId]);
-                if ((wallet.balance - wallet.pending_bids) < bidAmount) {
-                    ws.send(JSON.stringify({ type: 'error', message: 'Invalid balance.' }));
+                const [reserved] = await pool.execute(`SELECT SUM(reserved_amount) as total_reserved FROM reserved_bids WHERE user_id = ?`, [userId]);
+
+                const totalReserved = reserved[0].total_reserved || 0;
+
+                if ((wallet.balance - wallet.pending_bids - totalReserved) < bidAmount) {
+                    ws.send(JSON.stringify({ type: 'error', message: 'Not enough balance for this bid.' }));
                     return;
                 }
+
 
                 const product = products[0];
                 let status;
@@ -239,6 +249,14 @@ wss.on('connection', (ws) => {
                     [auctionId, userId, bidAmount, new Date().toISOString()]
                 );
 
+                await pool.execute(
+                    `INSERT INTO reserved_bids (user_id, product_id, reserved_amount)
+                    VALUES (?, ?, ?)
+                    ON DUPLICATE KEY UPDATE reserved_amount = ?
+                    `, [userId, auctionId, bidAmount, bidAmount]
+                );
+
+
                 const [updatedProduct] = await pool.execute('SELECT * FROM product WHERE id = ?', [auctionId]);
                 const [updatedBids] = await pool.execute(
                     'SELECT * FROM bid_history WHERE product_id = ? ORDER BY bid_time DESC',
@@ -250,6 +268,10 @@ wss.on('connection', (ws) => {
                 if (oldUserId && oldUserId !== userId) {
                     await recalculatePending(oldUserId);
                     await pool.query(`INSERT INTO notifications(user_id, message, type, is_read) VALUES (?,?,?,0)`, [oldUserId, `Your price for product ${product.name} has been exceeded`, "bid"]);
+                    await pool.execute(
+                        'DELETE FROM reserved_bids WHERE user_id = ? AND product_id = ?',
+                        [oldUserId, auctionId]
+                    );
                 }
 
 

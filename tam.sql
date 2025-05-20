@@ -112,9 +112,20 @@ INSERT INTO `bid_history` (`id`, `product_id`, `user_id`, `bid_amount`, `bid_tim
 	(94, 20, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 6111111.00, '2025-05-15 15:20:20'),
 	(95, 21, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6212121.00, '2025-05-15 15:33:01'),
 	(96, 21, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 11212121.00, '2025-05-15 15:33:24'),
-	(97, 21, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 16212121.00, '2025-05-15 15:33:26');
+	(97, 21, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 16212121.00, '2025-05-15 15:33:26'),
+	(98, 38, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 14000000.00, '2025-05-16 08:37:40'),
+	(99, 38, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 19000000.00, '2025-05-16 08:37:46'),
+	(100, 37, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 14000000.00, '2025-05-17 02:34:05'),
+	(101, 36, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 10000000.00, '2025-05-17 02:34:09'),
+	(102, 35, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6000000.00, '2025-05-17 02:43:48'),
+	(103, 28, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6321322.00, '2025-05-17 02:54:10'),
+	(104, 26, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6232132.00, '2025-05-20 05:40:12'),
+	(105, 27, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6321322.00, '2025-05-20 08:00:41'),
+	(106, 27, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 11321322.00, '2025-05-20 08:01:22'),
+	(107, 25, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 5123232.00, '2025-05-20 08:01:31'),
+	(108, 27, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 16321322.00, '2025-05-20 08:02:29');
 
--- Dumping data for table products.notifications: ~27 rows (approximately)
+-- Dumping data for table products.notifications: ~39 rows (approximately)
 INSERT INTO `notifications` (`id`, `user_id`, `message`, `type`, `is_read`, `created_at`) VALUES
 	(1, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You have a new bid on your product.', 'auction', 1, '2025-05-13 17:15:44'),
 	(2, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'Your product is overdue', 'cancel', 1, '2025-05-15 15:10:11'),
@@ -143,7 +154,23 @@ INSERT INTO `notifications` (`id`, `user_id`, `message`, `type`, `is_read`, `cre
 	(27, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 'You won product "Motobike" at price 6111111.00 VND', 'auction', 0, '2025-05-15 22:22:08'),
 	(28, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'Your price for product Magic pad has been exceeded', 'bid', 1, '2025-05-15 22:33:24'),
 	(29, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 'Your price for product Magic pad has been exceeded', 'bid', 0, '2025-05-15 22:33:26'),
-	(30, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You won product "Magic pad" at price 16212121.00 VND', 'auction', 1, '2025-05-15 22:36:38');
+	(30, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You won product "Magic pad" at price 16212121.00 VND', 'auction', 1, '2025-05-15 22:36:38'),
+	(31, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'Your price for product  Hermès Birkin Bag has been exceeded', 'bid', 1, '2025-05-16 15:37:46'),
+	(32, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'Payment confirmation successful', 'confirm', 1, '2025-05-16 15:38:47'),
+	(33, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 'You won product " Hermès Birkin Bag" at price 19000000.00 VND', 'auction', 0, '2025-05-16 15:41:00'),
+	(34, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You won product "Macallan 1926 Fine & Rare " at price 14000000.00 VND', 'auction', 1, '2025-05-17 09:37:47'),
+	(35, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You won product "Bugatti La Voiture Noire" at price 10000000.00 VND', 'auction', 1, '2025-05-17 09:37:54'),
+	(36, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You won product "Rolex Daytona Rainbow " at price 6000000.00 VND', 'auction', 1, '2025-05-17 09:44:02'),
+	(37, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'Your product is overdue', 'cancel', 1, '2025-05-19 14:20:38'),
+	(38, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'Your product is overdue', 'cancel', 1, '2025-05-20 12:37:46'),
+	(39, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You won product "Soffell" at price 6232132.00 VND', 'auction', 1, '2025-05-20 12:42:00'),
+	(40, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You won product "Natri Clorid 2" at price 6321322.00 VND', 'auction', 0, '2025-05-20 14:47:39'),
+	(41, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'Your price for product Natri Clorid has been exceeded', 'bid', 0, '2025-05-20 15:01:22'),
+	(42, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 'Your price for product Natri Clorid has been exceeded', 'bid', 0, '2025-05-20 15:02:29'),
+	(43, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You won product "Natri Clorid" at price 16321322.00 VND', 'auction', 0, '2025-05-20 15:03:00'),
+	(44, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'You won product "Stephen Hawking" at price 5123232.00 VND', 'auction', 0, '2025-05-20 15:03:05'),
+	(45, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'Payment confirmation successful', 'confirm', 0, '2025-05-20 15:05:08'),
+	(46, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 'Payment confirmation successful', 'confirm', 0, '2025-05-20 15:08:52');
 
 -- Dumping data for table products.payments: ~14 rows (approximately)
 INSERT INTO `payments` (`id`, `user_id`, `won_item_id`, `paid_at`, `shipping_address`, `phoneNumber`, `deliveredTime`, `shipping_method`) VALUES
@@ -161,7 +188,10 @@ INSERT INTO `payments` (`id`, `user_id`, `won_item_id`, `paid_at`, `shipping_add
 	(12, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 13, '2025-05-15 15:25:30', 'Da Nang, đà nẵng, vn', '0867797246', '2025-05-19 15:25:30', 'Express'),
 	(13, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 14, '2025-05-15 15:38:52', 'Hue, đà nẵng, vn', '0867797246', '2025-05-19 15:38:52', 'Express'),
 	(14, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 11, '2025-05-15 15:51:24', 'Hue, đà nẵng, xc', '0867797246', '2025-05-19 15:51:24', 'Express'),
-	(15, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 17, '2025-05-15 22:18:59', 'Hue, đà nẵng, vn', '0867797246', '2025-05-19 22:18:59', 'Standard');
+	(15, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 17, '2025-05-15 22:18:59', 'Hue, đà nẵng, vn', '0867797246', '2025-05-19 22:18:59', 'Standard'),
+	(16, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 18, '2025-05-16 15:38:47', 'Hue, đà nẵng, vn', '0867797246', '2025-05-20 15:38:47', 'Express'),
+	(17, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 30, '2025-05-20 15:05:08', 'Hue, đà nẵng, vn', '0867797246', '2025-05-24 15:05:08', 'Express'),
+	(18, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 29, '2025-05-20 15:08:52', 'Hue, đà nẵng, xc', '0867797246', '2025-05-24 15:08:52', 'Express');
 
 -- Dumping data for table products.product: ~38 rows (approximately)
 INSERT INTO `product` (`id`, `name`, `startingPrice`, `auctionTime`, `category`, `images`, `description`, `highest_bid`, `highest_bidder_user`) VALUES
@@ -189,29 +219,31 @@ INSERT INTO `product` (`id`, `name`, `startingPrice`, `auctionTime`, `category`,
 	(22, 'Coop Finest', 3232322.00, '2025-04-30 09:06:00', 'Real Estate', '["1745331241444_prod-4(1).png","1745331241455_prod-4(2).png","1745331241460_prod-4(3).png","1745331241468_prod-4(4).png"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 3232322.02, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
 	(23, 'Open minded book', 123233.00, '2025-04-12 14:15:00', 'Sports Memorabilia', '["1745331344881_prod-7(1).png","1745331344884_prod-7(2).png","1745331344891_prod-7(3).png","1745331344892_prod-7(4).png"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 123233.00, NULL),
 	(24, 'Pathways Book', 313233.00, '2025-04-30 09:28:00', 'Art & Collectibles', '["1745331510596_prod-29(1).jpg","1745331510597_prod-29(2).jpg","1745331510597_prod-29(3).jpg","1745331510597_prod-29.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 313233.02, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
-	(25, 'Stephen Hawking', 123232.00, '2025-04-30 10:05:00', 'Home & Furniture', '["1745331858442_prod-25(1).jpg","1745331858442_prod-25(2).jpg","1745331858443_prod-25(3).jpg","1745331858443_prod-25.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 123232.00, NULL),
-	(26, 'Soffell', 1232132.00, '2025-04-17 14:26:00', 'Fashion & Accessories', '["1745332022464_prod-26(1).jpg","1745332022464_prod-26(2).jpg","1745332022465_prod-26(3).jpg","1745332022465_prod-26.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1232132.00, NULL),
-	(27, 'Natri Clorid', 1321322.00, '2025-04-23 07:38:00', 'Home & Furniture', '["1745332721362_prod-27(1).jpg","1745332721362_prod-27(2).jpg","1745332721362_prod-27(3).jpg","1745332721363_prod-27.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1321322.00, NULL),
-	(28, 'Natri Clorid 2', 1321322.00, '2025-04-25 16:03:00', 'Home & Furniture', '["1745333118246_prod-30(1).jpg","1745333118246_prod-30(2).jpg","1745333118247_prod-30(3).jpg","1745333118248_prod-30.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1321322.00, NULL),
+	(25, 'Stephen Hawking', 123232.00, '2025-05-20 14:03:00', 'Home & Furniture', '["1745331858442_prod-25(1).jpg","1745331858442_prod-25(2).jpg","1745331858443_prod-25(3).jpg","1745331858443_prod-25.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 5123232.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
+	(26, 'Soffell', 1232132.00, '2025-05-20 11:42:00', 'Fashion & Accessories', '["1745332022464_prod-26(1).jpg","1745332022464_prod-26(2).jpg","1745332022465_prod-26(3).jpg","1745332022465_prod-26.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 6232132.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
+	(27, 'Natri Clorid', 1321322.00, '2025-05-20 14:03:00', 'Home & Furniture', '["1745332721362_prod-27(1).jpg","1745332721362_prod-27(2).jpg","1745332721362_prod-27(3).jpg","1745332721363_prod-27.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 16321322.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
+	(28, 'Natri Clorid 2', 1321322.00, '2025-05-17 08:55:00', 'Home & Furniture', '["1745333118246_prod-30(1).jpg","1745333118246_prod-30(2).jpg","1745333118247_prod-30(3).jpg","1745333118248_prod-30.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 6321322.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
 	(29, 'Natri Clorid 3', 1321322.00, '2025-04-29 22:34:00', 'Home & Furniture', '["1745333316942_prod-28(1).jpg","1745333316944_prod-28(2).jpg","1745333316944_prod-28(3).jpg","1745333316945_prod-28.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1321322.00, NULL),
 	(30, 'Music DVD', 1213232.00, '2025-04-25 15:23:00', 'Real Estate', '["1745564439128_Screenshot 2025-02-14 122846.png","1745564439134_Screenshot 2025-02-14 122930.png","1745564439139_Screenshot 2025-02-14 123017.png","1745564439140_Screenshot 2025-02-14 124449.png"]', 'This elegant vintage wristwatch is a perfect blend of timeless design and exceptional Swiss craftsmanship, making it a true standout accessory for any watch collection. The sophisticated stainless steel case, with its polished finish, exudes strength and resilience while maintaining a classic and refined aesthetic. The genuine leather strap adds an element of luxurious comfort and complements the watch\'s overall vintage charm, offering a seamless balance of durability and style.\n\nEvery detail of this exquisite timepiece has been carefully crafted, from the intricate movement that powers it to the sleek, minimalist dial that ensures ease of reading at a glance. Its delicate design is further enhanced by a subtle yet durable sapphire crystal glass, offering scratch resistance and ensuring the watch remains as beautiful as the day it was first crafted.\n\nNot only does this wristwatch possess exceptional aesthetic appeal, but it is also perfectly functional and well-maintained. Whether worn for formal occasions or as an everyday accessory, it provides both reliability and comfort. The meticulous Swiss engineering ensures that the watch keeps time accurately, making it a valuable addition to any collection. For watch enthusiasts, this piece is not just an accessory but a symbol of fine craftsmanship, rich heritage, and enduring style. Its design and quality make it a versatile companion that transitions seamlessly from day to night, whether you’re attending a business meeting, an elegant dinner, or enjoying a casual outing.\n\nA true classic, this vintage wristwatch offers not just a connection to the past but also a piece of history that can be cherished for years to come.', 1321322.00, NULL),
 	(31, 'Xiaomi Redmi K30 Pro 5G', 32133332.00, '2025-04-25 16:26:00', 'Electronics & Gadgets', '["1745573236705_prod-4(1).png","1745573236716_prod-4(2).png","1745573236726_prod-4(3).png","1745573236735_prod-4(4).png"]', 'This elegant vintage wristwatch is a perfect blend of timeless design and exceptional Swiss craftsmanship, making it a true standout accessory for any watch collection. The sophisticated stainless steel case, with its polished finish, exudes strength and resilience while maintaining a classic and refined aesthetic. The genuine leather strap adds an element of luxurious comfort and complements the watch\'s overall vintage charm, offering a seamless balance of durability and style.\r\n\r\nEvery detail of this exquisite timepiece has been carefully crafted, from the intricate movement that powers it to the sleek, minimalist dial that ensures ease of reading at a glance. Its delicate design is further enhanced by a subtle yet durable sapphire crystal glass, offering scratch resistance and ensuring the watch remains as beautiful as the day it was first crafted.\r\n\r\nNot only does this wristwatch possess exceptional aesthetic appeal, but it is also perfectly functional and well-maintained. Whether worn for formal occasions or as an everyday accessory, it provides both reliability and comfort. The meticulous Swiss engineering ensures that the watch keeps time accurately, making it a valuable addition to any collection. For watch enthusiasts, this piece is not just an accessory but a symbol of fine craftsmanship, rich heritage, and enduring style. Its design and quality make it a versatile companion that transitions seamlessly from day to night, whether you’re attending a business meeting, an elegant dinner, or enjoying a casual outing.\r\n\r\nA true classic, this vintage wristwatch offers not just a connection to the past but also a piece of history that can be cherished for years to come.', 1321322.00, NULL),
-	(32, 'Dogo Canario', 1233223.00, '2025-04-28 15:24:00', 'Real Estate', '["1745825017922_prod-2(1).jpg","1745825017930_prod-13(1).jpg","1745825017933_prod-13(2).jpg","1745825017935_prod-13(3).jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1321322.00, NULL),
-	(33, 'Fluxedusax', 33232.00, '2025-04-29 22:34:00', 'Music & Entertainment', '["1745825128648_prod-6(2).png","1745825128648_prod-12(1).jpg","1745825128651_prod-12(2).jpg","1745825128653_prod-12(3).jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1321322.00, NULL),
-	(34, 'Pie', 21323.00, '2025-05-09 13:58:00', 'Sports Memorabilia', '["1745944557202_4b7634621d476db51630c627825a03d7.jpg","1745944557205_30f5a9a433057e94662b7f752bbb3805.jpg","1745944557206_988ff97dc573215039a6d388b5358688.gif","1745944557267_37542-horror-748x421.jpg"]', 'ádádád', 1321322.08, '4USb5jsNK4Yxhh9CrWvZJh4widm1'),
-	(35, 'Rolex Daytona Rainbow ', 1000000.00, '2025-05-16 17:58:00', 'Sports Memorabilia', '["1747367995644_prod-10(3).jpg","1747367995645_prod-11(1).jpg","1747367995647_prod-11(2).jpg","1747367995647_prod-11(3).jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1000000.00, NULL),
-	(36, 'Bugatti La Voiture Noire', 5000000.00, '2025-05-16 03:00:00', 'Home & Furniture', '["1747368065112_prod-11(3).jpg","1747368065113_prod-13(1).jpg","1747368065116_prod-13(2).jpg","1747368065119_prod-13(3).jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 5000000.00, NULL),
-	(37, 'Macallan 1926 Fine & Rare ', 9000000.00, '2025-05-16 14:01:00', 'Fashion & Accessories', '["1747368116943_prod-8(1).png","1747368116945_prod-8(2).png","1747368116945_prod-8(3).png","1747368116946_prod-8(4).png"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 9000000.00, NULL),
-	(38, ' Hermès Birkin Bag', 9000000.00, '2025-05-16 14:02:00', 'Real Estate', '["1747368164255_prod-7(1).png","1747368164257_prod-7(2).png","1747368164260_prod-7(3).png","1747368164261_prod-7(4).png"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 9000000.00, NULL);
+	(32, 'Dogo Canario', 1233223.00, '2025-05-20 12:40:00', 'Real Estate', '["1745825017922_prod-2(1).jpg","1745825017930_prod-13(1).jpg","1745825017933_prod-13(2).jpg","1745825017935_prod-13(3).jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1321322.00, NULL),
+	(33, 'Fluxedusax', 33232.00, '2025-05-20 12:40:00', 'Music & Entertainment', '["1745825128648_prod-6(2).png","1745825128648_prod-12(1).jpg","1745825128651_prod-12(2).jpg","1745825128653_prod-12(3).jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1321322.00, NULL),
+	(34, 'Pie', 21323.00, '2025-05-17 08:50:00', 'Sports Memorabilia', '["1745944557202_4b7634621d476db51630c627825a03d7.jpg","1745944557205_30f5a9a433057e94662b7f752bbb3805.jpg","1745944557206_988ff97dc573215039a6d388b5358688.gif","1745944557267_37542-horror-748x421.jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 1321322.08, '4USb5jsNK4Yxhh9CrWvZJh4widm1'),
+	(35, 'Rolex Daytona Rainbow ', 1000000.00, '2025-05-17 08:54:00', 'Sports Memorabilia', '["1747367995644_prod-10(3).jpg","1747367995645_prod-11(1).jpg","1747367995647_prod-11(2).jpg","1747367995647_prod-11(3).jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 6000000.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
+	(36, 'Bugatti La Voiture Noire', 5000000.00, '2025-05-17 08:37:00', 'Home & Furniture', '["1747368065112_prod-11(3).jpg","1747368065113_prod-13(1).jpg","1747368065116_prod-13(2).jpg","1747368065119_prod-13(3).jpg"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 10000000.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
+	(37, 'Macallan 1926 Fine & Rare ', 9000000.00, '2025-05-17 08:37:00', 'Fashion & Accessories', '["1747368116943_prod-8(1).png","1747368116945_prod-8(2).png","1747368116945_prod-8(3).png","1747368116946_prod-8(4).png"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 14000000.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
+	(38, ' Hermès Birkin Bag', 9000000.00, '2025-05-16 14:41:00', 'Real Estate', '["1747368164255_prod-7(1).png","1747368164257_prod-7(2).png","1747368164260_prod-7(3).png","1747368164261_prod-7(4).png"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 19000000.00, '4USb5jsNK4Yxhh9CrWvZJh4widm1');
+
+-- Dumping data for table products.reserved_bids: ~1 rows (approximately)
 
 -- Dumping data for table products.wallets: ~4 rows (approximately)
 INSERT INTO `wallets` (`id`, `user_id`, `balance`, `pending_bids`) VALUES
-	(1, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 38489679.965500, 6111111.00),
-	(2, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 125844242.991500, 109012220.00),
+	(1, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 38489679.965500, 25111111.00),
+	(2, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 16867255.984000, 11355364.00),
 	(4, 'Mzc7l8vZNfOlITmXFIWXAzyt6cW2', 0.000000, 0.00),
 	(5, 'QA82NKri6ZaugznfpMXUZmeie3y2', 0.000000, 0.00);
 
--- Dumping data for table products.wallet_transactions: ~86 rows (approximately)
+-- Dumping data for table products.wallet_transactions: ~119 rows (approximately)
 INSERT INTO `wallet_transactions` (`id`, `wallet_id`, `type`, `amount`, `description`, `created_at`) VALUES
 	(1, 1, 'Bids', 1321322.06, 'Bidding item : Pie', '2025-05-09 14:19:02'),
 	(2, 1, 'Bids', 1321322.07, 'Bidding item : Pie', '2025-05-09 14:34:21'),
@@ -305,9 +337,38 @@ INSERT INTO `wallet_transactions` (`id`, `wallet_id`, `type`, `amount`, `descrip
 	(90, 2, 'Confirm', 25543545.00, 'Comfirm payment: Chanel Diamond Forever Bag', '2025-05-15 22:18:59'),
 	(91, 1, 'Bids', 6111111.00, 'Bidding item : Motobike', '2025-05-15 22:20:20'),
 	(92, 2, 'Bids', 6212121.00, 'Bidding item : Magic pad', '2025-05-15 22:33:01'),
-	(93, 1, 'Bids', 11212121.00, 'Bidding item : Magic pad', '2025-05-15 22:33:24');
+	(93, 1, 'Bids', 11212121.00, 'Bidding item : Magic pad', '2025-05-15 22:33:24'),
+	(94, 2, 'Bids', 14000000.00, 'Bidding item :  Hermès Birkin Bag', '2025-05-16 15:37:40'),
+	(95, 2, 'Bids', 24000000.00, 'Bidding item :  Hermès Birkin Bag', '2025-05-16 15:37:49'),
+	(96, 2, 'Confirm', 47334343.00, 'Comfirm payment: Prada Brandy Top Handle Bag', '2025-05-16 15:38:46'),
+	(97, 2, 'Bids', 14000000.00, 'Bidding item : Macallan 1926 Fine & Rare ', '2025-05-17 09:34:05'),
+	(98, 2, 'Bids', 10000000.00, 'Bidding item : Bugatti La Voiture Noire', '2025-05-17 09:34:09'),
+	(99, 2, 'Add Funds', 10000000.00, 'IWNE', '2025-05-17 09:43:06'),
+	(100, 2, 'Add Funds', 10000000.00, 'NFWE', '2025-05-17 09:43:23'),
+	(101, 2, 'Bids', 6000000.00, 'Bidding item : Rolex Daytona Rainbow ', '2025-05-17 09:43:48'),
+	(102, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid 2', '2025-05-17 09:54:10'),
+	(103, 2, 'Withdrawal', 50000000.00, 'TEST 2 PENDING', '2025-05-19 14:22:42'),
+	(104, 2, 'Withdrawal', 42000000.00, 'ÊWWWW', '2025-05-20 12:39:51'),
+	(105, 2, 'Bids', 6232132.00, 'Bidding item : Soffell', '2025-05-20 12:40:12'),
+	(106, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 12:40:26'),
+	(107, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 12:40:31'),
+	(108, 2, 'Bids', 11232132.00, 'Bidding item : Soffell', '2025-05-20 12:40:50'),
+	(109, 2, 'Add Funds', 13000000.00, 'KBCCC', '2025-05-20 14:41:08'),
+	(110, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid', '2025-05-20 14:49:41'),
+	(111, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 14:49:58'),
+	(112, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid', '2025-05-20 14:52:09'),
+	(113, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid', '2025-05-20 14:52:17'),
+	(114, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid', '2025-05-20 15:00:41'),
+	(115, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 15:00:46'),
+	(116, 1, 'Bids', 11321322.00, 'Bidding item : Natri Clorid', '2025-05-20 15:01:22'),
+	(117, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 15:01:31'),
+	(118, 2, 'Bids', 16321322.00, 'Bidding item : Natri Clorid', '2025-05-20 15:01:44'),
+	(119, 2, 'Add Funds', 20000000.00, 'JQW', '2025-05-20 15:02:20'),
+	(120, 2, 'Bids', 16321322.00, 'Bidding item : Natri Clorid', '2025-05-20 15:02:29'),
+	(121, 2, 'Confirm', 16321322.00, 'Comfirm payment: Natri Clorid', '2025-05-20 15:05:07'),
+	(122, 2, 'Confirm', 6321322.00, 'Comfirm payment: Natri Clorid 2', '2025-05-20 15:08:52');
 
--- Dumping data for table products.won_items: ~20 rows (approximately)
+-- Dumping data for table products.won_items: ~29 rows (approximately)
 INSERT INTO `won_items` (`id`, `user_id`, `product_id`, `final_price`, `status`, `won_at`, `created_at`, `payment_due`) VALUES
 	(1, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 29, 1321322.00, 'Received', '2025-04-29 23:33:02', '2025-04-29 23:33:02', '2025-05-02 23:33:02'),
 	(2, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 30, 1213232.00, 'Received', '2025-04-29 23:33:02', '2025-04-29 23:33:02', '2025-05-02 23:33:02'),
@@ -315,7 +376,7 @@ INSERT INTO `won_items` (`id`, `user_id`, `product_id`, `final_price`, `status`,
 	(4, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 32, 1233223.01, 'Delivered', '2025-04-29 23:33:02', '2025-04-29 23:33:02', '2025-05-02 23:33:02'),
 	(5, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 33, 33232.02, 'Received', '2025-04-29 23:33:02', '2025-04-29 23:33:02', '2025-05-02 23:33:02'),
 	(6, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 34, 21323.01, 'Received', '2025-04-29 23:37:02', '2025-04-29 23:37:02', '2025-05-02 23:37:02'),
-	(7, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 24, 313233.02, 'Delivered', '2025-04-30 10:28:00', '2025-04-30 10:28:00', '2025-05-03 10:28:00'),
+	(7, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 24, 313233.02, 'Received', '2025-04-30 10:28:00', '2025-04-30 10:28:00', '2025-05-03 10:28:00'),
 	(8, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 15, 2545435.03, 'Delivered', '2025-05-04 21:23:00', '2025-05-04 21:23:00', '2025-05-07 21:23:00'),
 	(9, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 7, 9867676.03, 'Delivered', '2025-05-11 10:24:08', '2025-05-11 10:24:08', '2025-05-14 10:24:08'),
 	(10, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 4, 10321323.00, 'Received', '2025-05-12 14:38:00', '2025-05-12 14:38:00', '2025-05-15 14:38:00'),
@@ -324,12 +385,20 @@ INSERT INTO `won_items` (`id`, `user_id`, `product_id`, `final_price`, `status`,
 	(13, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6, 10433523.00, 'Delivered', '2025-05-15 14:09:44', '2025-05-18 14:09:44', '2025-05-20 14:09:44'),
 	(14, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 9, 15054345.00, 'Delivered', '2025-05-15 15:37:01', '2025-05-18 15:37:01', '2025-05-20 15:37:01'),
 	(17, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 8, 25543545.00, 'Delivered', '2025-05-15 15:53:53', '2025-05-18 15:53:53', '2025-05-20 15:53:53'),
-	(18, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 12, 47334343.00, 'Pending', '2025-05-15 16:07:28', '2025-05-18 16:07:28', '2025-05-20 16:07:28'),
-	(19, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 17, 19342322.00, 'Pending', '2025-05-15 16:55:49', '2025-05-18 16:55:49', '2025-05-20 16:55:49'),
-	(20, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 18, 5012323.00, 'Pending', '2025-05-15 16:57:36', '2025-05-18 16:57:36', '2025-05-20 16:57:36'),
-	(21, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 19, 21111111.00, 'Pending', '2025-05-15 22:13:31', '2025-05-18 22:13:31', '2025-05-20 22:13:31'),
+	(18, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 12, 47334343.00, 'Received', '2025-05-15 16:07:28', '2025-05-18 16:07:28', '2025-05-20 16:07:28'),
+	(19, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 17, 19342322.00, 'Cancel', '2025-05-15 16:55:49', '2025-05-18 16:55:49', '2025-05-20 16:55:49'),
+	(20, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 18, 5012323.00, 'Cancel', '2025-05-15 16:57:36', '2025-05-18 16:57:36', '2025-05-20 16:57:36'),
+	(21, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 19, 21111111.00, 'Cancel', '2025-05-15 22:13:31', '2025-05-18 22:13:31', '2025-05-20 22:13:31'),
 	(22, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 20, 6111111.00, 'Pending', '2025-05-15 22:22:08', '2025-05-18 22:22:08', '2025-05-20 22:22:08'),
-	(23, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 21, 16212121.00, 'Pending', '2025-05-15 22:36:38', '2025-05-18 22:36:38', '2025-05-20 22:36:38');
+	(23, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 21, 16212121.00, 'Cancel', '2025-05-15 22:36:38', '2025-05-18 22:36:38', '2025-05-20 22:36:38'),
+	(24, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 38, 19000000.00, 'Pending', '2025-05-16 15:41:00', '2025-05-19 15:41:00', '2025-05-21 15:41:00'),
+	(25, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 37, 14000000.00, 'Cancel', '2025-05-17 09:37:47', '2025-05-20 09:37:47', '2025-05-22 09:37:47'),
+	(26, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 36, 10000000.00, 'Cancel', '2025-05-17 09:37:54', '2025-05-20 09:37:54', '2025-05-22 09:37:54'),
+	(27, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 35, 6000000.00, 'Cancel', '2025-05-17 09:44:02', '2025-05-20 09:44:02', '2025-05-22 09:44:02'),
+	(28, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 26, 6232132.00, 'Pending', '2025-05-20 12:42:00', '2025-05-23 12:42:00', '2025-05-25 12:42:00'),
+	(29, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 28, 6321322.00, 'Received', '2025-05-20 14:47:39', '2025-05-23 14:47:39', '2025-05-25 14:47:39'),
+	(30, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 27, 16321322.00, 'Received', '2025-05-20 15:03:00', '2025-05-23 15:03:00', '2025-05-25 15:03:00'),
+	(31, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 25, 5123232.00, 'Pending', '2025-05-20 15:03:05', '2025-05-23 15:03:05', '2025-05-25 15:03:05');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -14,7 +14,7 @@ async function recalculatePending(userId) {
     `, [totalPending, userId]);
 }
 exports.getWonItem = async (req, res) => {
-    const userId = req.params.userId;
+    const userId = req.params.userId;  
     try {
         const [cancelResult] = await pool.query(`
             UPDATE won_items 
