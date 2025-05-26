@@ -19,12 +19,13 @@ const protectedRoutes = require('./routes/protected.routes');
 const wonitemRoutes = require('./routes/wonitems.routes');
 const walletRoutes = require('./routes/wallet.routes')
 const notificationRoutes = require('./routes/notification.routes')
-
+const vnpayRouter = require('./routes/vnpay.routes');
 app.use('/api/v1', productRoutes);
 app.use('/api/v1/protected', verifyTokenWithParam, protectedRoutes);
 app.use('/won-items', wonitemRoutes);
 app.use('/api/v1/wallet', walletRoutes);
 app.use('/api/v1/notification', notificationRoutes);
+app.use('/api/v1/vnpay', vnpayRouter);
 
 const clients = new Map();
 
@@ -39,6 +40,12 @@ const getAuctionStatus = (auctionTime) => {
     if (now >= start && now <= end) return 'Active';
     return 'Ended';
 };
+
+const formatCurrency = (value) => {
+    const number = typeof value === 'string' ? parseFloat(value) : value;
+    return new Intl.NumberFormat('vi-VN').format(number);
+};
+
 
 async function checkAuctionEnd(auctionId) {
     try {
@@ -87,7 +94,7 @@ async function checkAuctionEnd(auctionId) {
         await pool.query(`
             INSERT INTO notifications(user_id, message, type, is_read)
             VALUES (?, ?, 'auction', 0)
-        `, [product.highest_bidder_user, `You won product "${product.name}" at price ${finalPrice} VND`, 0]);
+        `, [product.highest_bidder_user, `You won product "${product.name}" at price ${formatCurrency(finalPrice)} VND`, 0]);
 
         await pool.execute(
             'DELETE FROM reserved_bids WHERE user_id = ? AND product_id = ?',
@@ -267,7 +274,7 @@ wss.on('connection', (ws) => {
 
                 if (oldUserId && oldUserId !== userId) {
                     await recalculatePending(oldUserId);
-                    await pool.query(`INSERT INTO notifications(user_id, message, type, is_read) VALUES (?,?,?,0)`, [oldUserId, `Your price for product ${product.name} has been exceeded`, "bid"]);
+                    await pool.query(`INSERT INTO notifications(user_id, message, type, is_read) VALUES (?,?,?,0)`, [oldUserId, `Your price for product "${product.name}" has been exceeded`, "bid"]);
                     await pool.execute(
                         'DELETE FROM reserved_bids WHERE user_id = ? AND product_id = ?',
                         [oldUserId, auctionId]

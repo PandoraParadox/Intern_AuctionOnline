@@ -14,8 +14,9 @@ async function recalculatePending(userId) {
     `, [totalPending, userId]);
 }
 exports.getWonItem = async (req, res) => {
-    const userId = req.params.userId;  
+    const userId = req.params.userId;
     try {
+        const [toBeCancelled] = await pool.query(`SELECT p.name FROM won_items wi JOIN product p ON wi.product_id = p.id WHERE wi.user_id = ? AND wi.status NOT IN ('Delivered', 'Received', 'Cancel') AND wi.created_at < NOW()`, [userId]);
         const [cancelResult] = await pool.query(`
             UPDATE won_items 
             SET status = 'Cancel' 
@@ -24,9 +25,17 @@ exports.getWonItem = async (req, res) => {
               AND created_at < NOW()
         `, [userId]);
 
+
         if (cancelResult.affectedRows > 0) {
             await recalculatePending(userId);
-            await pool.query(`INSERT INTO notifications(user_id, message, type, is_read) VALUES (?,?,?,0)`, [userId, "Your product is overdue", "cancel"]);
+
+            for (const item of toBeCancelled) {
+                const message = `Your product "${item.name}" is overdue.`;
+                await pool.query(
+                    `INSERT INTO notifications(user_id, message, type, is_read) VALUES (?,?,?,0)`,
+                    [userId, message, "cancel"]
+                );
+            }
         }
 
         const [rows] = await pool.query(
@@ -77,8 +86,13 @@ exports.confirmPayment = async (req, res) => {
              VALUES (?, ?, NOW(), ?, ?, ?, DATE_ADD(NOW(), INTERVAL 4 DAY))`,
             [userId, id, shipMethod, address, phone]
         );
+        const [productRows] = await connection.query(
+            `SELECT name FROM product WHERE id = ?`,
+            [productId]
+        );
+        const productName = productRows.length > 0 ? productRows[0].name : 'your product';
 
-        await pool.query(`INSERT INTO notifications(user_id, message, type, is_read) VALUES (?,?,?,0)`, [userId, "Payment confirmation successful", "confirm"]);
+        await pool.query(`INSERT INTO notifications(user_id, message, type, is_read) VALUES (?,?,?,0)`, [userId, `Payment confirmation for "${productName}" successful.`, "confirm"]);
 
         await connection.commit();
         res.status(200).json({ message: 'Payment confirmation successful' });
