@@ -70,3 +70,25 @@ exports.getTransactionsByUserId = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.getAllTransactions = async (req, res) => {
+    try {
+        const [trans] = await db.query(`
+            SELECT 
+                wt.id,
+                wt.wallet_id,
+                w.user_id,
+                wt.type,
+                wt.amount,
+                wt.description,
+                wt.created_at
+            FROM wallet_transactions wt
+            JOIN wallets w ON wt.wallet_id = w.id
+            ORDER BY wt.id ASC
+        `);
+        res.json(trans);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+

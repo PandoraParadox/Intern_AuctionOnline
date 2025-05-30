@@ -9,10 +9,12 @@ import UpdateUser from './component/UpdateUser/index';
 import AddProduct from './component/AddProduct/index';
 import Login from './component/Login';
 import TransactionHistory from './component/TransactionHistory/index';
+
 const PrivateRoute = ({ children }) => {
   const { authToken } = useAuth();
   return authToken ? children : <Navigate to="/" />;
 };
+
 function App() {
   return (
     <>
@@ -20,12 +22,6 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Login />} />
-          <Route path='/admin-user' element={<AdminUser />} />
-          <Route path='add-product' element={<AddProduct />} />
-          <Route path='admin-product' element={<AdminProduct />} />
-          <Route path='update-product/:id' element={<UpdateProduct />} />
-          <Route path='update-user/:id' element={<UpdateUser />} />
-          <Route path="/transaction-history" element={<TransactionHistory />} />
           <Route
             path="/"
             element={
@@ -39,7 +35,7 @@ function App() {
             <Route path='add-product' element={<AddProduct />} />
             <Route path='admin-product' element={<AdminProduct />} />
             <Route path='update-product/:id' element={<UpdateProduct />} />
-            <Route path='update-user/:id' element={<UpdateUser />} />
+            <Route path='update-user/:uid' element={<UpdateUser />} />
             <Route path="/transaction-history" element={<TransactionHistory />} />
             <Route path="transaction-history" element={<TransactionHistory />} />
 

@@ -3,7 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './updateProduct.module.css';
-import { FaUsers, FaBoxArchive, FaMoneyCheckDollar } from 'react-icons/fa6';
+import { FaBoxArchive, FaMoneyCheckDollar } from 'react-icons/fa6';
+import { FaUsers } from "react-icons/fa";
+import { jwtDecode } from 'jwt-decode';
+
 import axiosInstance from '../../interceptor';
 import { useAuth } from "../../context/AuthContext";
 
@@ -19,6 +22,9 @@ function UpdateProduct() {
         description: ''
     });
     const [showModal, setShowModal] = useState(false);
+    const { authToken } = useAuth();
+    const [uid, setUid] = useState(null);
+    const [user, setuser] = useState(null);
 
     useEffect(() => {
         axiosInstance.get(`http://localhost:5000/api/v1/products/${id}`)
@@ -115,30 +121,64 @@ function UpdateProduct() {
         });
     };
 
+    useEffect(() => {
+        if (authToken) {
+            const { sub } = jwtDecode(authToken);
+            setUid(sub);
+        }
+    }, [authToken]);
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const userRes = await axiosInstance.get(`http://localhost:5000/api/v1/user/${uid}`);
+                setuser(userRes.data);
+            } catch (err) {
+                console.error("Lỗi fetch dữ liệu:", err);
+            }
+        };
+
+        if (uid) {
+            fetchUser();
+        }
+    }, [uid]);
+
     const { logout } = useAuth();
+    const handleToUsers = () => navigate("/admin-user");
+    const handleToProducts = () => navigate("/admin-product");
+    const handleToPayHistory = () => navigate("/transaction-history");
     const handleToLogOut = () => {
         logout();
         navigate("/");
     }
 
+
+
     return (
         <div className={styles.ui}>
             <div className={styles.sidebar}>
-                <div className={styles.logo}><h1>ADMIN</h1></div>
+                <div className={styles.logo}>
+                    <h1 className={styles.logoText}>ADMIN MANAGER</h1>
+                </div>
                 <ul className={styles.menu}>
-                    <li className={styles.menuItem} onClick={() => navigate("/admin-user")}>
-                        <FaUsers className={styles.icon} /><span>Users</span>
+                    <li className={styles.menuItem} onClick={handleToUsers}>
+                        <span className={styles.icon}><FaUsers /></span>
+                        <span className={styles.text}>Users</span>
                     </li>
-                    <li className={`${styles.menuItem} ${styles.active}`} onClick={() => navigate("/admin-product")}>
-                        <FaBoxArchive className={styles.icon} /><span>Products</span>
+                    <li className={`${styles.menuItem}  ${styles.active}`} onClick={handleToProducts}>
+                        <span className={styles.icon}><FaBoxArchive /></span>
+                        <span className={styles.text}>Products</span>
                     </li>
-                    <li className={styles.menuItem} onClick={() => navigate("/transaction-history")}>
-                        <FaMoneyCheckDollar className={styles.icon} /><span>Payment History</span>
+                    <li className={`${styles.menuItem}`} onClick={handleToPayHistory}>
+                        <span className={styles.icon}><FaMoneyCheckDollar /></span>
+                        <span className={styles.text}>Payment History</span>
                     </li>
                 </ul>
-                <div className={styles.sidebarUser} onClick={() => handleToLogOut()}>
+                <div className={styles.sidebarUser} onClick={handleToLogOut}>
                     <img src="/user.png" alt="User Avatar" className={styles.avatar} />
-                    <div className={styles.username}>ADMIN</div>
+                    <div>
+                        <div className={styles.username}>{user?.displayName || ""}</div>
+                        <div className={styles.username}>{user?.email || ""}</div>
+                    </div>
                 </div>
             </div>
 

@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 import axios from 'axios';
+import axiosInstance from "../../interceptor";
+import { jwtDecode } from 'jwt-decode';
+
 
 function AddProduct() {
     const navigate = useNavigate();
@@ -20,6 +23,9 @@ function AddProduct() {
         "category": "",
         "description": "",
     });
+    const { authToken } = useAuth();
+    const [uid, setUid] = useState(null);
+    const [user, setuser] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -139,6 +145,27 @@ function AddProduct() {
         setPrevFiles([]);
     }
 
+    useEffect(() => {
+        if (authToken) {
+            const { sub } = jwtDecode(authToken);
+            setUid(sub);
+        }
+    }, [authToken]);
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const userRes = await axiosInstance.get(`http://localhost:5000/api/v1/user/${uid}`);
+                setuser(userRes.data);
+            } catch (err) {
+                console.error("Lỗi fetch dữ liệu:", err);
+            }
+        };
+
+        if (uid) {
+            fetchUser();
+        }
+    }, [uid]);
+
     const handleToUsers = () => navigate("/admin-user");
     const handleToProducts = () => navigate("/admin-product");
     const handleToPayHistory = () => navigate("/transaction-history");
@@ -153,7 +180,7 @@ function AddProduct() {
             <div className={styles.ui}>
                 <div className={styles.sidebar}>
                     <div className={styles.logo}>
-                        <h1>ADMIN</h1>
+                        <h1 className={styles.logoText}>ADMIN MANAGER</h1>
                     </div>
                     <ul className={styles.menu}>
                         <li className={styles.menuItem} onClick={handleToUsers}>
@@ -171,7 +198,10 @@ function AddProduct() {
                     </ul>
                     <div className={styles.sidebarUser} onClick={handleToLogOut}>
                         <img src="/user.png" alt="User Avatar" className={styles.avatar} />
-                        <div className={styles.username}>ADMIN</div>
+                        <div>
+                            <div className={styles.username}>{user?.displayName || ""}</div>
+                            <div className={styles.username}>{user?.email || ""}</div>
+                        </div>
                     </div>
                 </div>
 
