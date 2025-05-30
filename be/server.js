@@ -20,12 +20,15 @@ const wonitemRoutes = require('./routes/wonitems.routes');
 const walletRoutes = require('./routes/wallet.routes')
 const notificationRoutes = require('./routes/notification.routes')
 const vnpayRouter = require('./routes/vnpay.routes');
+const userRoutes = require('./routes/user.routes');
 app.use('/api/v1', productRoutes);
 app.use('/api/v1/protected', verifyTokenWithParam, protectedRoutes);
 app.use('/won-items', wonitemRoutes);
 app.use('/api/v1/wallet', walletRoutes);
 app.use('/api/v1/notification', notificationRoutes);
 app.use('/api/v1/vnpay', vnpayRouter);
+app.use('/api/v1/user', userRoutes);
+
 
 const clients = new Map();
 

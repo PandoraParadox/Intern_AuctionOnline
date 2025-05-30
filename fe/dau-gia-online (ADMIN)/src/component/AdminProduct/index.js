@@ -12,6 +12,7 @@ import axiosInstance from "../../interceptor";
 import { url } from "../../util/Url";
 import { useAuth } from "../../context/AuthContext";
 import { formatCurrency } from './../../util/format';
+import { jwtDecode } from 'jwt-decode';
 
 
 function AdminProduct() {
@@ -19,6 +20,31 @@ function AdminProduct() {
   const [showModal, setShowModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const navigate = useNavigate();
+  const { authToken } = useAuth();
+  const [uid, setUid] = useState(null);
+  const [user, setuser] = useState(null);
+
+  useEffect(() => {
+    if (authToken) {
+      const { sub } = jwtDecode(authToken);
+      setUid(sub);
+    }
+  }, [authToken]);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userRes = await axiosInstance.get(`http://localhost:5000/api/v1/user/${uid}`);
+        setuser(userRes.data);
+      } catch (err) {
+        console.error("Lỗi fetch dữ liệu:", err);
+      }
+    };
+
+    if (uid) {
+      fetchUser();
+    }
+  }, [uid]);
+
 
   useEffect(() => {
     console.log("Get all product")
@@ -62,7 +88,9 @@ function AdminProduct() {
     }
   };
 
-
+  function formatCurrency(amount) {
+    return Math.trunc(amount).toLocaleString("vi-VN");
+  }
   const cancelChange = () => {
     setShowModal(false);
   };
@@ -90,7 +118,7 @@ function AdminProduct() {
       <div className={styles.app}>
         <div className={styles.sidebar}>
           <div className={styles.logo}>
-            <h1>ADMIN</h1>
+            <h1 className={styles.logoText}>ADMIN MANAGER</h1>
           </div>
           <ul className={styles.menu}>
             <li className={styles.menuItem} onClick={handleToUsers}>
@@ -108,7 +136,10 @@ function AdminProduct() {
           </ul>
           <div className={styles.sidebarUser} onClick={handleToLogOut}>
             <img src="/user.png" alt="User Avatar" className={styles.avatar} />
-            <p className={styles.username}>ADMIN</p>
+            <div>
+              <div className={styles.username}>{user?.displayName || ""}</div>
+              <div className={styles.username}>{user?.email || ""}</div>
+            </div>
           </div>
         </div>
         <div className={styles.mainContent}>

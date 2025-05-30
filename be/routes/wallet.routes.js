@@ -9,6 +9,7 @@ router.get("/:userId", walletController.getWalletByUserId);
 
 router.post("/transaction", verifyToken, walletController.createTransaction);
 router.get("/transactions/:userId", walletController.getTransactionsByUserId);
+router.get("/gettrans/all", walletController.getAllTransactions);
 
 module.exports = router;
 

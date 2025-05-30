@@ -18,7 +18,21 @@
 .logo {
   text-align: center;
   margin-bottom: 30px;
-  cursor: pointer;
+  padding: 15px 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.logoText {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+  letter-spacing: 1px;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
 }
 
 .menu {
@@ -58,17 +72,25 @@
 }
 
 .avatar {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   margin: 10px;
+  cursor: pointer;
 }
 
 .username {
-  font-size: 20px;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 15px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: #fff;
-  margin: 20px;
+
+
+}
+
+.usergmail {
+  font-size: 15px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: #fff;
 }
 
 .mainContent {
@@ -104,7 +126,7 @@
   width: 280px;
   height: 150px;
   text-align: center;
-  border: 2px solid black;
+  border: 2px solid #E6E5E5;
   background-color: white;
   font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
   font-weight: bold;

@@ -10,44 +10,29 @@ import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 import { db } from "../../firebase";
 import { ref, get, remove } from "firebase/database";
+import axiosInstance from "../../interceptor";
+import { jwtDecode } from 'jwt-decode';
 
 function AdminUser() {
     const [data, setData] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
     const navigate = useNavigate();
+    const { authToken } = useAuth();
+    const [uid, setUid] = useState(null);
+    const [user, setuser] = useState(null);
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const snapshot = await get(ref(db, "user"));
-                if (snapshot.exists()) {
-                    const usersData = snapshot.val();
-                    const usersList = Object.entries(usersData).map(([id, user]) => ({
-                        id,
-                        ...user,
-                    }));
-                    setData(usersList);
-                } else {
-                    console.log("No data available");
-                }
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            }
-        };
 
-        fetchUsers();
-    }, []);
 
-    const handleDeleteUser = (id) => {
-        setUserToDelete(id);
+    const handleDeleteUser = (uid) => {
+        setUserToDelete(uid);
         setShowModal(true);
     };
 
     const confirmChange = async () => {
         try {
-            await remove(ref(db, `user/${userToDelete}`));
-            setData(data.filter(user => user.id !== userToDelete));
+            await axiosInstance.delete(`http://localhost:5000/api/v1/user/delete/${userToDelete}`)
+            setData(data.filter(user => user.uid !== userToDelete));
             setShowModal(false);
             toast.success("User has been successfully deleted!", {
                 position: "bottom-right",
@@ -72,13 +57,47 @@ function AdminUser() {
         navigate("/");
     };
 
+    useEffect(() => {
+        const fetchUsers = async () => {
+            axiosInstance.get(`http://localhost:5000/api/v1/user/get/all`)
+                .then((res) => {
+                    console.log(res.data.data);
+                    setData(res.data.data);
+                })
+                .catch((err) => console.log(err));
+        };
+
+        fetchUsers();
+    }, []);
+
+    useEffect(() => {
+        if (authToken) {
+            const { sub } = jwtDecode(authToken);
+            setUid(sub);
+        }
+    }, [authToken]);
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const userRes = await axiosInstance.get(`http://localhost:5000/api/v1/user/${uid}`);
+                setuser(userRes.data);
+            } catch (err) {
+                console.error("Lỗi fetch dữ liệu:", err);
+            }
+        };
+
+        if (uid) {
+            fetchUser();
+        }
+    }, [uid]);
+
     return (
         <>
             <div>
                 <div className={styles.app}>
                     <div className={styles.sidebar}>
                         <div className={styles.logo}>
-                            <h1>ADMIN</h1>
+                            <h1 className={styles.logoText}>ADMIN MANAGER</h1>
                         </div>
                         <ul className={styles.menu}>
                             <li onClick={handleToUsers} className={styles.menuItem + " " + styles.active}>
@@ -96,7 +115,10 @@ function AdminUser() {
                         </ul>
                         <div className={styles.sidebarUser} onClick={handleToLogOut}>
                             <img src="/user.png" alt="User Avatar" className={styles.avatar} />
-                            <p className={styles.username}>ADMIN</p>
+                            <div>
+                                <div className={styles.username}>{user?.displayName || ""}</div>
+                                <div className={styles.username}>{user?.email || ""}</div>
+                            </div>
                         </div>
                     </div>
 
@@ -116,29 +138,37 @@ function AdminUser() {
                             <table className={styles.userTable}>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>UID</th>
                                         <th>NAME</th>
                                         <th>EMAIL</th>
-                                        <th>ADDRESS</th>
-                                        <th>DATE OF BIRTH</th>
-                                        <th>ROLE</th>
-                                        <th>ACTION</th>
+
+
                                         <th>ACTIONS</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {data.map((user) => (
-                                        <tr key={user.id}>
-                                            <td>{user.id}</td>
-                                            <td>{user.name}</td>
+                                        <tr key={user.uid}>
+                                            <td>{user.uid}</td>
+                                            <td>{user.displayName}</td>
                                             <td>{user.email}</td>
-                                            <td>{user.address}</td>
-                                            <td>{user.dateOfBirth}</td>
-                                            <td>{user.role}</td>
-                                            <td>{user.action}</td>
+
+
                                             <td>
-                                                <button onClick={() => navigate(`/update-user/${user.id}`)} className={styles.edit}><BiSolidInbox /></button>
-                                                <button onClick={() => handleDeleteUser(user.id)} className={styles.delete}><FaTrash /></button>
+                                                <button
+                                                    onClick={() => {
+                                                        if (!user.uid) {
+                                                            console.error("User UID is missing!", user);
+                                                            return;
+                                                        }
+                                                        navigate(`/update-user/${user.uid}`);
+                                                    }}
+                                                    className={styles.edit}
+                                                >
+                                                    <BiSolidInbox />
+                                                </button>
+
+                                                <button onClick={() => handleDeleteUser(user.uid)} className={styles.delete}><FaTrash /></button>
                                             </td>
                                         </tr>
                                     ))}

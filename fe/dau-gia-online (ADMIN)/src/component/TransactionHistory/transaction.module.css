@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 .ui {
     display: flex;
     height: 100%;
     background-color: #FCFAFA;
 
 }
+
 .sidebar {
     width: 250px;
     background-color: #6aaef1;
@@ -17,8 +19,21 @@
 .logo {
     text-align: center;
     margin-bottom: 30px;
-    cursor: pointer;
-    
+    padding: 15px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.logoText {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+    letter-spacing: 1px;
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
 }
 
 .menu {
@@ -43,7 +58,7 @@
 
 .icon {
     margin-right: 10px;
-    
+
 }
 
 .sidebarUser {
@@ -59,19 +74,25 @@
 }
 
 .avatar {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     margin: 10px;
     cursor: pointer;
 }
 
 .username {
-    font-size: 20px;
+    font-size: 15px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: #fff;
-    margin: 20px;
-    
+
+
+}
+
+.usergmail {
+    font-size: 15px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #fff;
 }
 
 .imgArea>form {
@@ -119,7 +140,7 @@
     text-align: center;
     border: 2px solid #E6E5E5;
     background-color: white;
-    font-family:'Segoe UI', Tahoma, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
     font-weight: bold;
 }
 
@@ -127,6 +148,7 @@
     font-size: 35px;
     font-weight: bold;
 }
+
 .searchBar input {
     width: 76%;
     padding: 10px;
@@ -137,24 +159,27 @@
     box-sizing: border-box;
 }
 
-.addProductIcon{
-    width: 45px;
-    height: 45px;
+.addProductIcon {
+    width: 40px;
+    height: 40px;
     background-color: #7a7878;
     border: none;
     border-radius: 5px;
     margin-left: 23px;
+    padding-bottom: 5px;
     color: white;
     font-size: 25px;
     font-weight: bold;
     text-align: center;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
-.addProductIcon:hover{
+
+.addProductIcon:hover {
     background-color: #5a5252;
 }
+
 .scrollableDiv {
-    height: 385px;
+    height: 390px;
     overflow-y: auto;
     border: none;
     box-sizing: border-box;
@@ -166,7 +191,7 @@
 .userTable {
     width: 100%;
     overflow: scroll;
-    
+
 }
 
 .userTable thead {
@@ -176,7 +201,8 @@
     z-index: 1;
 }
 
-.userTable th, .userTable td {
+.userTable th,
+.userTable td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #ccc;
@@ -208,7 +234,7 @@
 }
 
 .stats input {
-    
+
     margin-left: 385px;
     margin-top: 125px;
     height: 30px;

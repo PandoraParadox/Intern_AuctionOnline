@@ -17,13 +17,15 @@ function Login() {
     const [error, setError] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
                 const user = userCredential.user;
+                const idToken = await user.getIdToken();
+                login(idToken);
                 toast.success("Đăng nhập thành công", {
                     position: "bottom-right",
                     autoClose: 1000,
@@ -47,8 +49,10 @@ function Login() {
     const handleGoogleLogin = () => {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
-            .then((result) => {
+            .then(async (result) => {
                 const user = result.user;
+                const idToken = await user.getIdToken();
+                login(idToken);
                 toast.success("Đăng nhập thành công", {
                     position: "bottom-right",
                     autoClose: 1000,
